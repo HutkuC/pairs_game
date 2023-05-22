@@ -17,15 +17,20 @@
    <widget class="QWidget" name="horizontalLayoutWidget">
     <property name="geometry">
      <rect>
-      <x>0</x>
+      <x>10</x>
       <y>0</y>
-      <width>801</width>
-      <height>86</height>
+      <width>791</width>
+      <height>91</height>
      </rect>
     </property>
     <layout class="QHBoxLayout">
      <item>
       <widget class="QLabel" name="label">
+       <property name="font">
+        <font>
+         <pointsize>30</pointsize>
+        </font>
+       </property>
        <property name="text">
         <string>Score: 0</string>
        </property>
@@ -33,6 +38,11 @@
      </item>
      <item>
       <widget class="QLabel" name="label_2">
+       <property name="font">
+        <font>
+         <pointsize>30</pointsize>
+        </font>
+       </property>
        <property name="text">
         <string>Remaining: 50</string>
        </property>
@@ -471,7 +481,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>36</height>
+     <height>24</height>
     </rect>
    </property>
   </widget>

@@ -81,16 +81,18 @@ void MainWindow::click(int button)
             }
         } else {
             changeButton(button, State::WAITING);
+            remaining -= 1;
+            ui -> pushButton -> blockSignals(true);
             for (int i = 0; i < 30; i++) {
                 buttonMap[i] -> blockSignals(true);
             }
             QTest::qWait(1000);
+            ui -> pushButton -> blockSignals(false);
             for (int i = 0; i < 30; i++) {
                 buttonMap[i] -> blockSignals(false);
             }
             changeButton(button, State::CLOSE);
             changeButton(currentButton, State::CLOSE);
-            remaining -= 1;
             if (remaining == 0) {
                 ui -> label -> setText("Score: " + QString::number(score));
                 ui -> label_2 -> setText("Game Over");
@@ -110,6 +112,7 @@ void MainWindow::newGame()
     srand(time(0));
     score = 0;
     remaining = 50;
+    currentButton = -1;
     ui -> label -> setText("Score: " + QString::number(score));
     ui -> label_2 -> setText("Remaining: " + QString::number(remaining));
     buttons.resize(30);
@@ -153,10 +156,10 @@ void MainWindow::changeButton(int button, State state)
     } else if (state == State::WAITING) {
         buttonMap[button] -> setText(QString::fromStdString(buttons[button]));
         buttonMap[button] -> setEnabled(false);
-        buttonMap[button] -> setStyleSheet("background-color: rgb(63, 63, 0); border: none;");
+        buttonMap[button] -> setStyleSheet("background-color: rgb(200, 200, 0); border: none; color: black;");
     } else if (state == State::OPEN) {
         buttonMap[button] -> setText(QString::fromStdString(buttons[button]));
         buttonMap[button] -> setEnabled(false);
-        buttonMap[button] -> setStyleSheet("background-color: rgb(0, 63, 0); border: none;");
+        buttonMap[button] -> setStyleSheet("background-color: rgb(0, 200, 0); border: none; color: black;");
     }
 }
