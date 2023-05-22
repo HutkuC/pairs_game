@@ -7,6 +7,12 @@
 #include <string>
 #include <map>
 
+enum class State {
+    CLOSE,
+    WAITING,
+    OPEN
+};
+
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -26,10 +32,11 @@ private:
     int remaining = 50;
     std::vector<std::string> buttons;
     std::map<int, QPushButton*> buttonMap;
-    std::vector<bool> isOpen;
+    std::vector<State> states;
 
 private slots:
     void click(int button);
     void newGame();
+    void changeButton(int button, State state);
 };
 #endif // MAINWINDOW_H
