@@ -1,4 +1,4 @@
-#include "mainwindow.h"
+#include "game.h"
 #include "ui_mainwindow.h"
 #include <iostream>
 #include <QApplication>
