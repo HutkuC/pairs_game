@@ -6,7 +6,7 @@
 #include <QPushButton>
 #include <QtTest/QtTest>
 
-MainWindow::MainWindow(QWidget *parent)
+Game::Game(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
@@ -49,12 +49,12 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui -> pushButton, &QPushButton::clicked, [=](){click(-1);});
 }
 
-MainWindow::~MainWindow()
+Game::~Game()
 {
     delete ui;
 }
 
-void MainWindow::click(int button)
+void Game::click(int button)
 {
     if (button == -1) { // New Game button
         newGame();
@@ -106,7 +106,7 @@ void MainWindow::click(int button)
     }
 }
 
-void MainWindow::newGame()
+void Game::newGame()
 {
     srand(time(0));
     score = 0;
@@ -146,7 +146,7 @@ void MainWindow::newGame()
     unlockAllButtons();
 }
 
-void MainWindow::changeButton(int button, State state)
+void Game::changeButton(int button, State state)
 {
     states[button] = state;
     if (state == State::CLOSE) {
@@ -168,7 +168,7 @@ void MainWindow::changeButton(int button, State state)
     }
 }
 
-void MainWindow::lockAllButtons() // The player should be not able to click buttons sometimes
+void Game::lockAllButtons() // The player should be not able to click buttons sometimes
 {
     ui -> pushButton -> blockSignals(true);
     for (int i = 0; i < 30; i++) {
@@ -176,7 +176,7 @@ void MainWindow::lockAllButtons() // The player should be not able to click butt
     }
 }
 
-void MainWindow::unlockAllButtons()
+void Game::unlockAllButtons()
 {
     ui -> pushButton -> blockSignals(false);
     for (int i = 0; i < 30; i++) {
@@ -184,7 +184,7 @@ void MainWindow::unlockAllButtons()
     }
 }
 
-void MainWindow::setAllButtonsFail()
+void Game::setAllButtonsFail()
 {
     for (int i = 0; i < 30; i++) {
         changeButton(i, State::FAIL);
