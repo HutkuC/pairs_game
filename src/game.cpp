@@ -11,6 +11,7 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    this->setWindowTitle("Pairs");
     buttonMap[0] = ui -> pushButton_2;
     buttonMap[1] = ui -> pushButton_3;
     buttonMap[2] = ui -> pushButton_4;
@@ -72,37 +73,35 @@ void MainWindow::click(int button)
             changeButton(button, State::OPEN);
             changeButton(currentButton, State::OPEN);
             score += 1;
+            remaining -= 1;
+            ui -> label -> setText("Score: " + QString::number(score));
+            ui -> label_2 -> setText("Remaining: " + QString::number(remaining));
             if (score == 15) {
                 ui -> label -> setText("Score: " + QString::number(score));
                 ui -> label_2 -> setText("You Win");
-                QTest::qWait(2000);
-                newGame();
+                lockAllButtons();
+                ui -> pushButton -> blockSignals(false);
                 return;
             }
         } else {
             changeButton(button, State::WAITING);
             remaining -= 1;
-            ui -> pushButton -> blockSignals(true);
-            for (int i = 0; i < 30; i++) {
-                buttonMap[i] -> blockSignals(true);
-            }
+            ui -> label -> setText("Score: " + QString::number(score));
+            ui -> label_2 -> setText("Remaining: " + QString::number(remaining));
+            lockAllButtons();
             QTest::qWait(1000);
-            ui -> pushButton -> blockSignals(false);
-            for (int i = 0; i < 30; i++) {
-                buttonMap[i] -> blockSignals(false);
-            }
+            unlockAllButtons();
             changeButton(button, State::CLOSE);
             changeButton(currentButton, State::CLOSE);
-            if (remaining == 0) {
+            if (remaining < 15 - score) {
                 ui -> label -> setText("Score: " + QString::number(score));
                 ui -> label_2 -> setText("Game Over");
-                QTest::qWait(2000);
-                newGame();
+                setAllButtonsFail();
+                lockAllButtons();
+                ui -> pushButton -> blockSignals(false);
                 return;
             }
         }
-        ui -> label -> setText("Score: " + QString::number(score));
-        ui -> label_2 -> setText("Remaining: " + QString::number(remaining));
         currentButton = -1;
     }
 }
@@ -144,6 +143,7 @@ void MainWindow::newGame()
     for (int i = 0; i < 30; i++) {
         changeButton(i, State::CLOSE);
     }
+    unlockAllButtons();
 }
 
 void MainWindow::changeButton(int button, State state)
@@ -161,5 +161,32 @@ void MainWindow::changeButton(int button, State state)
         buttonMap[button] -> setText(QString::fromStdString(buttons[button]));
         buttonMap[button] -> setEnabled(false);
         buttonMap[button] -> setStyleSheet("background-color: rgb(0, 200, 0); border: none; color: black;");
+    } else if (state == State::FAIL) {
+        buttonMap[button] -> setText(QString::fromStdString(buttons[button]));
+        buttonMap[button] -> setEnabled(false);
+        buttonMap[button] -> setStyleSheet("background-color: rgb(200, 0, 0); border: none; color: black;");
+    }
+}
+
+void MainWindow::lockAllButtons()
+{
+    ui -> pushButton -> blockSignals(true);
+    for (int i = 0; i < 30; i++) {
+        buttonMap[i] -> blockSignals(true);
+    }
+}
+
+void MainWindow::unlockAllButtons()
+{
+    ui -> pushButton -> blockSignals(false);
+    for (int i = 0; i < 30; i++) {
+        buttonMap[i] -> blockSignals(false);
+    }
+}
+
+void MainWindow::setAllButtonsFail()
+{
+    for (int i = 0; i < 30; i++) {
+        changeButton(i, State::FAIL);
     }
 }

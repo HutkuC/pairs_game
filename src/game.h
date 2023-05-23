@@ -10,7 +10,8 @@
 enum class State {
     CLOSE,
     WAITING,
-    OPEN
+    OPEN,
+    FAIL
 };
 
 QT_BEGIN_NAMESPACE
@@ -33,10 +34,13 @@ private:
     std::vector<std::string> buttons;
     std::map<int, QPushButton*> buttonMap;
     std::vector<State> states;
+    void changeButton(int button, State state);
+    void lockAllButtons();
+    void unlockAllButtons();
+    void setAllButtonsFail();
 
 private slots:
     void click(int button);
     void newGame();
-    void changeButton(int button, State state);
 };
 #endif // MAINWINDOW_H
