@@ -152,7 +152,7 @@ void Game::changeButton(int button, State state)
     if (state == State::CLOSE) {
         buttonMap[button] -> setText("");
         buttonMap[button] -> setEnabled(true);
-        buttonMap[button] -> setStyleSheet("background-color: rgb(63, 63, 63); border: none;");
+        buttonMap[button] -> setStyleSheet("background-color: rgb(131, 131, 131); border: none;");
     } else if (state == State::WAITING) {
         buttonMap[button] -> setText(QString::fromStdString(buttons[button]));
         buttonMap[button] -> setEnabled(false);
