@@ -56,20 +56,20 @@ MainWindow::~MainWindow()
 
 void MainWindow::click(int button)
 {
-    if (button == -1) {
+    if (button == -1) { // New Game button
         newGame();
         return;
     }
-    if (states[button] != State::CLOSE) {
+    if (states[button] != State::CLOSE) { // If the card is already open
         return;
     }
-    if (currentButton == -1) {
+    if (currentButton == -1) { // If there are no open card
         currentButton = button;
         changeButton(button, State::WAITING);
         return;
     }
     else {
-        if (buttons[currentButton] == buttons[button]) {
+        if (buttons[currentButton] == buttons[button]) { // If the two cards match
             changeButton(button, State::OPEN);
             changeButton(currentButton, State::OPEN);
             score += 1;
@@ -83,7 +83,7 @@ void MainWindow::click(int button)
                 ui -> pushButton -> blockSignals(false);
                 return;
             }
-        } else {
+        } else { // If they do not match
             changeButton(button, State::WAITING);
             remaining -= 1;
             ui -> label -> setText("Score: " + QString::number(score));
@@ -93,7 +93,7 @@ void MainWindow::click(int button)
             unlockAllButtons();
             changeButton(button, State::CLOSE);
             changeButton(currentButton, State::CLOSE);
-            if (remaining < 15 - score) {
+            if (remaining < 15 - score) { // If the player has remaining moves less than close cards, game over
                 ui -> label -> setText("Score: " + QString::number(score));
                 ui -> label_2 -> setText("Game Over");
                 setAllButtonsFail();
@@ -136,7 +136,7 @@ void MainWindow::newGame()
     for (int i = 0; i < 15; i++) {
         buttons[2 * i] = buttons[2 * i + 1] = words[i];
     }
-    for (int i = 0; i < 30; i++) {
+    for (int i = 0; i < 30; i++) { // Shuffle cards
         int j = rand() % 30;
         std::swap(buttons[i], buttons[j]);
     }
@@ -168,7 +168,7 @@ void MainWindow::changeButton(int button, State state)
     }
 }
 
-void MainWindow::lockAllButtons()
+void MainWindow::lockAllButtons() // The player should be not able to click buttons sometimes
 {
     ui -> pushButton -> blockSignals(true);
     for (int i = 0; i < 30; i++) {
