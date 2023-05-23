@@ -1,5 +1,5 @@
 #include "game.h"
-#include "ui_mainwindow.h"
+#include "ui_game.h"
 #include <iostream>
 #include <QApplication>
 #include <QCoreApplication>
